@@ -33,13 +33,13 @@ const StripeCheckoutForm = ({
     let data;
     try {
       const res = await fetch(
-        `${getBaseUrl()}/api/stripe/create-checkout-session`,
+        `${getBaseUrl()}/api/stripe/create-payment-intent`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            priceId: orderData?.stripePriceId,
-            quantity: orderData?.quantity || 1,
+            amount: amount,
+            currency: "usd",
           }),
         }
       );

@@ -3,6 +3,7 @@ import React from "react";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../redux/features/cart/cartSlice";
+import getBaseUrl from "../utils/baseURL";
 
 const StripeCheckoutForm = ({
   amount,
@@ -31,11 +32,14 @@ const StripeCheckoutForm = ({
     // 1. Call backend to create PaymentIntent
     let data;
     try {
-      const res = await fetch("/api/stripe/create-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount }),
-      });
+      const res = await fetch(
+        `${getBaseUrl()}/api/stripe/create-checkout-session`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount }),
+        }
+      );
       data = await res.json();
     } catch (err) {
       await Swal.fire({

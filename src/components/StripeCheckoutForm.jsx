@@ -37,7 +37,10 @@ const StripeCheckoutForm = ({
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ amount }),
+          body: JSON.stringify({
+            priceId: orderData?.stripePriceId,
+            quantity: orderData?.quantity || 1,
+          }),
         }
       );
       data = await res.json();

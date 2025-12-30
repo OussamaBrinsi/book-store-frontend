@@ -26,27 +26,5 @@ const EmbeddedStripeCheckout = ({
         const data = await res.json();
         setClientSecret(data.clientSecret);
       } catch (err) {
-        onError && onError(err);
+            // This file has been removed. The EmbeddedStripeCheckout component is no longer used. Use StripeCheckoutForm for all Stripe payments.
       } finally {
-        setLoading(false);
-      }
-    };
-    fetchClientSecret();
-  }, [priceId, quantity, onError]);
-
-  useEffect(() => {
-    if (!clientSecret || !window.Stripe) return;
-    const stripe = window.Stripe(
-      "pk_test_51SjgkZ1g36i1SaPdrRED6XOrEtT3KIsLlf3C0kwwZxpiNt43gCxYTYzgeaSXhWBuWQLItcxkDn6LtddGAP1Z0wh200P4faPsXj"
-    );
-    const checkout = stripe.initEmbeddedCheckout({
-      clientSecret,
-    });
-    checkout.mount(checkoutRef.current);
-  }, [clientSecret]);
-
-  if (loading) return <div>Loading payment...</div>;
-  return <div id="checkout" ref={checkoutRef} style={{ minHeight: 500 }} />;
-};
-
-export default EmbeddedStripeCheckout;
